@@ -1,5 +1,32 @@
 # Backend Programming Template (2025)
 
+## Petunjuk untuk menggunakan methods di gacha
+
+1. POST api/gacha/roll
+   `localhost:5000/api/gacha/roll`
+
+- Body:
+  {
+  "userId":"string",
+  "userName":"string"
+  }
+- userId dan userName wajib diisi
+
+2. GET api/gacha/history
+   `localhost:5000/api/gacha/history?userId=(isi id yang ingin dilihat)`
+
+- Parameter userId diperlukan untuk melihat history gacha
+
+3. GET api/gacha/inventory
+   `localhost:5000/api/gacha/inventory`
+
+- Gunakan endpoint ini untuk melihat daftar prize yang masih tersedia
+
+4. GET api/gacha/winners
+   `localhost:5000/api/gacha/winners`
+
+- Gunakan endpoint ini untuk melihat daftar pemenang yang diurutkan dari pemenang terbaru
+
 ## Development Setup
 
 1. Fork and clone this repository to your local computer.
