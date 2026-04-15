@@ -1,38 +1,51 @@
-const GachaLog = require('../../../models/gacha-schema');
+const mongoose = require('mongoose');
 
-class GachaRepository {
-  async countUserGachaToday(userId) {
-    const startOfDay = new Date();
-    startOfDay.setHours(0, 0, 0, 0);
-    return await GachaLog.countDocuments({
-      userId,
-      createdAt: { $gte: startOfDay },
-    });
-  }
+const Prizes = mongoose.model('Prizes');
+const GachaLogs = mongoose.model('GachaLogs');
 
-  async countPrizeWinners(prizeName) {
-    return await GachaLog.countDocuments({ prizeName });
-  }
-
-  async saveGachaResult(data) {
-    return await GachaLog.create(data);
-  }
-
-  async getAllLogs() {
-    return await GachaLog.find().sort({ createdAt: -1 });
-  }
-
-  async getWinners() {
-    // Mengambil data yang prizeName-nya bukan null/Zonk
-    return await GachaLog.find({ prizeName: { $ne: null } }).sort({
-      createdAt: -1,
-    });
-  }
-
-  async getUserHistory(userId) {
-    // Mencari semua log gacha milik userId tertentu dan diurutkan dari yang terbaru
-    return await GachaLog.find({ userId }).sort({ createdAt: -1 });
-  }
+async function getAvailablePrizes() {
+  return Prizes.find({ $expr: { $gt: ['$quota', '$winners_count'] } });
 }
 
-module.exports = new GachaRepository();
+async function incrementWinner(prizeId) {
+  return Prizes.updateOne({ _id: prizeId }, { $inc: { winners_count: 1 } });
+}
+
+async function createLog(data) {
+  const log = await GachaLogs.create(data);
+  return GachaLogs.findById(log._id).populate('prize_id');
+}
+
+async function getDailyCount(userId, startOfDay) {
+  return GachaLogs.countDocuments({
+    user_id: userId,
+    created_at: { $gte: startOfDay },
+  });
+}
+
+async function getHistory(userId) {
+  return GachaLogs.find({ user_id: userId }).populate('prize_id');
+}
+
+async function getAllPrizes() {
+  return Prizes.find({});
+}
+
+async function getWinners() {
+  return GachaLogs.find({ prize_id: { $ne: null } }).populate('prize_id');
+}
+
+async function createPrize(name, quota, chance) {
+  return Prizes.create({ name, quota, chance, winners_count: 0 });
+}
+
+module.exports = {
+  getAvailablePrizes,
+  incrementWinner,
+  createLog,
+  getDailyCount,
+  getHistory,
+  getAllPrizes,
+  getWinners,
+  createPrize,
+};

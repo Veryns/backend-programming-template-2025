@@ -1,11 +1,13 @@
 const express = require('express');
-
-const router = express.Router();
 const gachaController = require('./gacha-controller');
 
-router.post('/roll', gachaController.roll);
-router.get('/history', gachaController.getHistory);
-router.get('/inventory', gachaController.getInventory);
-router.get('/winners', gachaController.getWinnersList);
+const route = express.Router();
 
-module.exports = router;
+module.exports = (app) => {
+  app.use('/gacha', route);
+
+  route.post('/roll', gachaController.rollGacha);
+  route.get('/prizes', gachaController.getQuotas);
+  route.get('/history/:userId', gachaController.getHistory);
+  route.get('/winners', gachaController.getWinners);
+};

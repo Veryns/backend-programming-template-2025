@@ -1,31 +1,33 @@
 # Backend Programming Template (2025)
 
-## Petunjuk untuk menggunakan methods di gacha
+## Petunjuk untuk menggunakan endpoint di gacha
 
-1. POST api/gacha/roll
-   `localhost:5000/api/gacha/roll`
+1.POST api/gacha/roll
+`localhost:5000/api/gacha/roll`
 
-- Body:
-  {
-  "userId":"string",
-  "userName":"string"
-  }
-- userId dan userName wajib diisi
+{
+"user_id": "string",
+"user_name": "string"
+}
 
-2. GET api/gacha/history
-   `localhost:5000/api/gacha/history?userId=(isi id yang ingin dilihat)`
+- Catatan: user_id dan user_name wajib diisi. Maksimal gacha adalah 5 kali per hari untuk setiap user.
 
-- Parameter userId diperlukan untuk melihat history gacha
+  2.GET api/gacha/history/:userId
+  `localhost:5000/api/gacha/history/(isi_id_di_sini)`
 
-3. GET api/gacha/inventory
-   `localhost:5000/api/gacha/inventory`
+- Fungsi: Menampilkan riwayat gacha spesifik untuk satu user.
 
-- Gunakan endpoint ini untuk melihat daftar prize yang masih tersedia
+- Parameter: Masukkan ID user langsung di akhir URL (Path Parameter) untuk melihat riwayat hadiah yang pernah didapatkan.
 
-4. GET api/gacha/winners
-   `localhost:5000/api/gacha/winners`
+  3.GET api/gacha/prizes
+  `localhost:5000/api/gacha/prizes`
 
-- Gunakan endpoint ini untuk melihat daftar pemenang yang diurutkan dari pemenang terbaru
+- Fungsi: Menampilkan daftar seluruh hadiah beserta sisa kuota (quota) dan jumlah yang sudah dimenangkan (winners_count).
+
+  4.GET api/gacha/winners
+  `localhost:5000/api/gacha/winners`
+
+- Fungsi: Menampilkan daftar user yang beruntung mendapatkan hadiah.
 
 ## Development Setup
 

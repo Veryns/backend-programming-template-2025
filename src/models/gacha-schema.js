@@ -1,23 +1,31 @@
 const mongoose = require('mongoose');
 
-const gachaSchema = new mongoose.Schema({
-  userId: {
-    type: String,
-    required: true,
+const prizesSchema = new mongoose.Schema({
+  name: String,
+  quota: Number,
+  chance: Number,
+  winners_count: {
+    type: Number,
+    default: 0,
   },
-  userName: {
-    type: String,
-    required: true,
-  },
-  prizeName: {
-    type: String,
+});
+
+const gachaLogSchema = new mongoose.Schema({
+  user_id: String,
+  user_name: String,
+  prize_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Prizes',
     default: null,
   },
-  createdAt: {
+  created_at: {
     type: Date,
     default: Date.now,
   },
 });
 
-module.exports =
-  mongoose.models.GachaLog || mongoose.model('GachaLog', gachaSchema);
+module.exports = () => {
+  const Prizes = mongoose.model('Prizes', prizesSchema);
+  const GachaLogs = mongoose.model('GachaLogs', gachaLogSchema);
+  return { Prizes, GachaLogs };
+};
