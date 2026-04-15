@@ -2,8 +2,8 @@
 
 ## Petunjuk untuk menggunakan endpoint di gacha
 
-1.POST api/gacha/roll
-`localhost:5000/api/gacha/roll`
+1. POST api/gacha/roll
+   `localhost:5000/api/gacha/roll`
 
 {
 "user_id": "string",
@@ -12,20 +12,20 @@
 
 - Catatan: user_id dan user_name wajib diisi. Maksimal gacha adalah 5 kali per hari untuk setiap user.
 
-  2.GET api/gacha/history/:userId
-  `localhost:5000/api/gacha/history/(isi_id_di_sini)`
+2. GET api/gacha/history/:userId
+   `localhost:5000/api/gacha/history/(isi_id_di_sini)`
 
 - Fungsi: Menampilkan riwayat gacha spesifik untuk satu user.
 
 - Parameter: Masukkan ID user langsung di akhir URL (Path Parameter) untuk melihat riwayat hadiah yang pernah didapatkan.
 
-  3.GET api/gacha/prizes
-  `localhost:5000/api/gacha/prizes`
+3. GET api/gacha/prizes
+   `localhost:5000/api/gacha/prizes`
 
 - Fungsi: Menampilkan daftar seluruh hadiah beserta sisa kuota (quota) dan jumlah yang sudah dimenangkan (winners_count).
 
-  4.GET api/gacha/winners
-  `localhost:5000/api/gacha/winners`
+4. GET api/gacha/winners
+   `localhost:5000/api/gacha/winners`
 
 - Fungsi: Menampilkan daftar user yang beruntung mendapatkan hadiah.
 
